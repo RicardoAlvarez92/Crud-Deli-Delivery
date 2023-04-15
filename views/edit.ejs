@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CRUD Deli-Delivery</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+        <link rel="stylesheet" href="resources/css/index.css">
+    </head>
+    <body class="">
+        <section class="contEditarRest container my-3 shadow px-md-3 py-3  rounded-3 bg-white">
+            <form method="POST" action="/edit<%=id%>?_method=put" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-5 col-md-4 col-lg-3 p-1 d-flex flex-column align-items-center justify-content-center py-md-2">
+                    <div class="conImagen">
+                        <img class="imagenEditarRest rounded-2" src="" alt="">;
+                        <input class="inputEditarImagen form-control form-control-sm shadow-sm d-none" type="file" name="imagen" id="formFile"> 
+                    </div>
+                </div>
+                
+                <div class="datos col-7 col-md-8 col-lg-9 position-relative d-flex flex-column justify-content-evenly">
+                    <div class="form-check form-switch position-absolute top-0 end-0 mt-2 me-3">
+                    <input class="form-check-input" type="checkbox" role="switch" id="checkActivarEditarRestaurante" name="estatus">
+                    <label class="form-check-label" for="checkpActivarEditarRestaurante"><strong class="text-primary"><%=estatus%></strong></label>
+                    </div>
+                    <div class="col-4 col-md-2 mt-2">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Id</span>
+                            <input type="text" class="idRestaurante form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="<%=id%>" name="id" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 my-3 d-none d-md-block">
+                        <div class="input-group input-group-sm shadow-sm">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Url Imagen</span>
+                            <input type="text" class="inpUrlEditarRest form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="<%=imagen%>" name="url">
+                        </div>
+                    </div>
+                    <div class=" row">
+                    <div class="col-md-6 col-lg-4 mt-3 m-md-0">
+                        <div class="input-group input-group-sm shadow-sm">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Apertura</span>
+                        <input type="time" name="apertura" class="inpApeEditarRest form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="<%=apertura%>" name="apertura">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 mt-3 m-md-0">
+                        <div class="input-group input-group-sm shadow-sm">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Cierre</span>
+                        <input type="time" class="inpCieEditarRest form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="<%=cierre%>" name="cierre">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                
+                <div class="col-md-6 mb-3 my-3">
+                    <div class="input-group input-group-sm shadow-sm">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Nombre</span>
+                        <input type="text" class="inpNomEditarRest form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="<%=nombre%>" name="nombre">
+                    </div>
+                </div>
+                
+                <div class="col-md-6 my-md-3">
+                    <div class="input-group input-group-sm shadow-sm">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Ubicación</span>
+                        <input type="text" class="inpUbiEditarRest form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="<%=ubicacion%>" name="ubicacion">
+                    </div>
+                </div>
+                
+                <div class="col-md-6 d-flex flex-column my-3">
+                <div class="p-2 shadow rounded-3">
+                    <h4 class="mb-3">Categoria del restaurante</h4>
+                    <div class="row">
+                    <div class="col-6 ">
+                        <div class="form-check">
+                        <input class="checkCateEditarRest form-check-input" type="checkbox" value="Mexicana" id="flexCheckDefault" name="mexicana">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Mexicana
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="checkCateEditarRest form-check-input" type="checkbox" value="Americana" id="flexCheckDefault" name="americana">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Americana
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="checkCateEditarRest form-check-input " type="checkbox" value="Asiatica" id="flexCheckDefault" name="asiatica">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Asiatica
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="checkCateEditarRest form-check-input" type="checkbox" value="Pizza" id="flexCheckDefault" name="pizza">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Pizza
+                        </label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-check">
+                        <input class="checkCateEditarRest form-check-input" type="checkbox" value="Postres" id="flexCheckDefault" name="postres">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Postres
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="checkCateEditarRest form-check-input" type="checkbox" value="Panaderia" id="flexCheckDefault" name="panaderia">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Panaderia
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="checkCateEditarRest form-check-input" type="checkbox" value="Pollo" id="flexCheckDefault" name="pollo">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Pollo
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="checkCateEditarRest form-check-input" type="checkbox" value="Todo" id="flexCheckDefault" name="todo">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Todo
+                        </label>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+                </div>
+                
+                <div class="col-md-6 d-flex flex-column mb-3 my-md-3">
+                <div class="p-2 shadow rounded-3">
+                    <h4 class="mb-3">Dias Abierto</h4>
+                    <div class="row justify-content-evenly">
+                    <div class="col-6 ">
+                        <div class="form-check">
+                        <input class="checkDiaEditarRest form-check-input" type="checkbox" value="Lunes" id="flexCheckDefault" name="lunes">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Lunes
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="checkDiaEditarRest form-check-input" type="checkbox" value="Martes" id="flexCheckDefault" name="martes">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Martes
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="checkDiaEditarRest form-check-input" type="checkbox" value="Miercoles" id="flexCheckDefault" name="miercoles">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Miercoles
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="checkDiaEditarRest form-check-input" type="checkbox" value="Jueves" id="flexCheckDefault" name="jueves">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Jueves
+                        </label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-check">
+                        <input class="checkDiaEditarRest form-check-input" type="checkbox" value="Viernes" id="flexCheckDefault" name="viernes">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Viernes
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="checkDiaEditarRest form-check-input" type="checkbox" value="Sabado" id="flexCheckDefault" name="sabado">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Sabado
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="checkDiaEditarRest form-check-input" type="checkbox" value="Domingo" id="flexCheckDefault" name="domingo">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Domingo
+                        </label>
+                        </div>
+                        
+                    </div>
+
+                    </div>
+                </div>
+                </div>
+                
+                <div class=" mt-3 ">
+                <div class="p-2 shadow rounded-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="m-0">Categorias Menu</h4>
+                        <div class="d-flex ">
+                            <button type="button" class="btn p-0 px-1"  data-bs-toggle="modal" data-bs-target="#modalEditarCategoriasMenu">
+                                <img class="" src="./resources/img/icons/pencil2.png" alt="add" width="25">
+                            </button>
+                            <button type="button" class="btn p-0 px-1"  data-bs-toggle="modal" data-bs-target="#modalCrearCategoriaMenu">
+                                <img class="" src="./resources/img/icons/add.png" alt="add" width="28">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="contenedorChecksCategoriasMenu wraper py-3">
+                    </div>
+                </div>
+                </div>
+            <!-- --------------------------------------- -->
+                
+                <div class="mt-3">
+                    <div class="p-2 shadow rounded-3">
+                        <div class="d-flex justify-content-between">
+                        <h4 class="mb-3">Platillos de: <strong>Pizzas</strong></h4>
+                        <a href="">
+                            <img src="./resources/img/icons/add.png" alt="add">
+                        </a>
+                        </div>
+                        
+                        <div class="RegistersTable container-fluid mt-3 pb-2">
+                            <div class="titles row text-white bg-primary ">
+                                <p class="d-none d-lg-block col-lg-2  my-0 py-1 ">ID</p>
+                                <p class="col-2  my-0 py-1 ">Imagen</p>
+                                <P class="col-6 col-lg-4  my-0 py-1 ">Nombre</P>
+                                <p class="col-2  my-0 py-1">Precio</p>
+                                <p class="col-2  my-0 py-1 ">Editar</p>
+                            </div>
+                            <div class="platillos row shadow-sm rounded-2 mt-3">
+                                <p class="d-none d-lg-block col-lg-2 my-0 py-1 py-3">135548</p>
+                                <div class="img-rest col-2 my-0 py-1 d-flex align-items-center ">
+                                    <img class="img-fluid" src="./resources/img/caesar.png" alt="">
+                                </div>
+                                <p class="col-6 col-lg-4 my-0 py-1 py-3">Pizza de Peperoni</p>
+                                <p class="col-2 my-0 py-1 py-3">$89</p>
+                                <div class="col-2  my-0 py-1 d-flex align-items-center"><a href="#btn-editar"><img src="./resources/img/icons/pencil.png" alt="Editar"></a></div>
+                            </div>
+
+                            <div class="platillos row shadow-sm rounded-2 mt-3">
+                                <p class="d-none d-lg-block col-lg-2 my-0 py-1 py-3">135548</p>
+                                <div class="img-rest col-2 my-0 py-1 d-flex align-items-center ">
+                                    <img class="img-fluid" src="./resources/img/caesar.png" alt="">
+                                </div>
+                                <p class="col-6 col-lg-4 my-0 py-1 py-3">Pizza de Peperoni</p>
+                                <p class="col-2 my-0 py-1 py-3">$89</p>
+                                <div class="col-2  my-0 py-1 d-flex align-items-center"><a href="#btn-editar"><img src="./resources/img/icons/pencil.png" alt="Editar"></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="my-2 container">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-4 d-grid px-5 py-2 px-md-2 ">
+                    <input type="submit" class="btn btn-success" value="Guardar">
+                    </div>
+                </div>
+                </div>
+            </div>
+            </form>
+
+            <!-- modal para editar Categorias de menu -->
+            <div id="modalEditarCategoriasMenu" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <form id="formEditarCategoriasMenu" method="POST">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Categorias de Menu</h1>
+                            <button type="button" class="btnCerrarModalNuevoRest btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="contenedorCategoriasMenuModal modal-body">
+                            <!-- Se muestran registros con fetch -->
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btnCerrarModalNuevoRest btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+            <!-- modal crear categoria de menu -->
+            <div id="modalCrearCategoriaMenu" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <form id="formCrearCategoriaMenu" method="POST">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Categoria de Menu</h1>
+                            <button type="button" class="btnCerrarModalNuevoRest btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="contenedorCategoriasMenu modal-body">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre de Categoria:</label>
+                                <input type="text" class="inputnombreCrearCategoriaMenu form-control" name="nombre" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btnCerrarModalNuevoRest btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Crear</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </section>
+
+        
+        <script src="./resources/js/funciones.js"></script>
+        <script src="./resources/js/edit.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </body>
+    </html>
+

@@ -1,0 +1,61 @@
+/* Se utiliza un "-" para dar nombre a las clases en caso de usar 2 palabras */
+body{
+    background-color: rgb(246, 246, 246);
+}
+.fila{
+    vertical-align: middle;
+}
+.contSubirImg{
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    border: dashed 2px rgb(202, 198, 198);
+    overflow: hidden;
+}
+.imgNuevoRest{
+    width: 100%;
+    height: 100%;
+    object-fit: cover ;
+}   
+
+.imagenRestaurante img{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+/* .editarImgRest{
+    min-width: 100px;
+    max-width: 150px
+} */
+
+/* colocar un div dentro del contenedor de la imagen para darleun tamaño predeterminado */
+.conImagen{
+    width: 140px;
+    height: 140px;
+    overflow: hidden;
+}
+.imagenEditarRest{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.wraper{
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+p{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+@media screen and (min-width: 768px) {
+    .conImagen{
+        width: 175px;
+        height: 175px;
+    }
+}
