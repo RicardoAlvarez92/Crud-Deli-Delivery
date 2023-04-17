@@ -127,7 +127,7 @@ fetchCategoriasMenu();
 
 
 const inputnombreCrearCategoriaMenu = document.querySelector(".inputnombreCrearCategoriaMenu");
-
+let modalCrearCategoriaMenu = new bootstrap.Modal(document.getElementById("modalCrearCategoriaMenu"));
 //Crear Categoria Menu
 formCrearCategoriaMenu.addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -145,6 +145,9 @@ formCrearCategoriaMenu.addEventListener("submit", (e)=>{
         borrarElementosContenedor(".checkCategoriaMenu", contenedorChecksCategoriasMenu);
         borrarElementosContenedor(".categoriasMenuModal",contenedorCategoriasMenuModal);
         fetchCategoriasMenu();
+        console.log(modalCrearCategoriaMenu);
+        inputnombreCrearCategoriaMenu.value = "";
+        modalCrearCategoriaMenu.hide();
     })
 })
 
@@ -179,9 +182,9 @@ on(document, "click", ".btnBorrarCategoria", e => {
 
 
 /* --------EN CODIFICACION  ------------------*/
-
+let modalEditarCategoriasMenu = new bootstrap.Modal(document.getElementById('modalEditarCategoriasMenu'));
 //Editar Categoria de Menu
-modalEditarCategoriasMenu.addEventListener("submit", (e)=>{
+formEditarCategoriasMenu.addEventListener("submit", (e)=>{
     e.preventDefault();
     const categoriasMenuModal = document.querySelectorAll(".categoriasMenuModal");
 
@@ -202,7 +205,7 @@ modalEditarCategoriasMenu.addEventListener("submit", (e)=>{
     borrarElementosContenedor(".checkCategoriaMenu", contenedorChecksCategoriasMenu);
     borrarElementosContenedor(".categoriasMenuModal",contenedorCategoriasMenuModal);
     fetchCategoriasMenu();
-    /* crear categoria para listar las categorias en el modal editar */
+    modalEditarCategoriasMenu.hide();
 })
 
 
