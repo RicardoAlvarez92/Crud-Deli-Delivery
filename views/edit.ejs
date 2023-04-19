@@ -198,6 +198,7 @@
                         </div>
                     </div>
                     <div class="contenedorChecksCategoriasMenu wraper py-3">
+                        
                     </div>
                 </div>
                 </div>
@@ -206,39 +207,43 @@
                 <div class="mt-3">
                     <div class="p-2 shadow rounded-3">
                         <div class="d-flex justify-content-between">
-                        <h4 class="mb-3">Platillos de: <strong>Pizzas</strong></h4>
+                        <h4 class="mb-3">Platillos de: <strong class="cambiarCategoriaMenu">Pizzas</strong></h4>
                         <a href="">
                             <img src="./resources/img/icons/add.png" alt="add">
                         </a>
                         </div>
                         
-                        <div class="RegistersTable container-fluid mt-3 pb-2">
-                            <div class="titles row text-white bg-primary ">
-                                <p class="d-none d-lg-block col-lg-2  my-0 py-1 ">ID</p>
-                                <p class="col-2  my-0 py-1 ">Imagen</p>
-                                <P class="col-6 col-lg-4  my-0 py-1 ">Nombre</P>
-                                <p class="col-2  my-0 py-1">Precio</p>
-                                <p class="col-2  my-0 py-1 ">Editar</p>
-                            </div>
-                            <div class="platillos row shadow-sm rounded-2 mt-3">
-                                <p class="d-none d-lg-block col-lg-2 my-0 py-1 py-3">135548</p>
-                                <div class="img-rest col-2 my-0 py-1 d-flex align-items-center ">
-                                    <img class="img-fluid" src="./resources/img/caesar.png" alt="">
-                                </div>
-                                <p class="col-6 col-lg-4 my-0 py-1 py-3">Pizza de Peperoni</p>
-                                <p class="col-2 my-0 py-1 py-3">$89</p>
-                                <div class="col-2  my-0 py-1 d-flex align-items-center"><a href="#btn-editar"><img src="./resources/img/icons/pencil.png" alt="Editar"></a></div>
+                        <div class="contenedorPlatillos container-fluid mt-3 pb-2">
+
+                            <div class="titles row text-white bg-primary">
+                                <p class="d-none d-lg-block col-lg-1 my-0 py-1 ">ID</p>
+                                <p class="col-3 col-md-2 col-lg-1 my-0 py-1 ">Imagen</p>
+                                <P class="col-6 col-md-4 col-lg-3 my-0 py-1 ">Nombre</P>
+                                <p class="d-none d-lg-block col-lg-4 my-0 py-1">Descripción</p>
+                                <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 ">Precio</p>
+                                <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 ">Estatus</p>
+                                <p class="col-3 col-md-2 col-lg-1 my-0 py-1 "></p>
                             </div>
 
-                            <div class="platillos row shadow-sm rounded-2 mt-3">
-                                <p class="d-none d-lg-block col-lg-2 my-0 py-1 py-3">135548</p>
-                                <div class="img-rest col-2 my-0 py-1 d-flex align-items-center ">
+                            <div class="registroPlatillo row shadow mt-3 position-relative">
+                                <p class="d-none d-lg-block col-lg-1 my-0 py-3">1255</p>
+                                <div class="imagenRestaurante col-3 col-md-2 col-lg-1 my-0 py-1 d-flex align-items-center ">
                                     <img class="img-fluid" src="./resources/img/caesar.png" alt="">
                                 </div>
-                                <p class="col-6 col-lg-4 my-0 py-1 py-3">Pizza de Peperoni</p>
-                                <p class="col-2 my-0 py-1 py-3">$89</p>
-                                <div class="col-2  my-0 py-1 d-flex align-items-center"><a href="#btn-editar"><img src="./resources/img/icons/pencil.png" alt="Editar"></a></div>
+                                <p class="col-6 col-md-4 col-lg-3 my-0 py-1 py-3">Pizza de Peperoni</p>
+                                <p class="d-none d-lg-block col-lg-4 my-0 py-1 py-3">pizza de peperoni horneada a 35 grados </p>
+                                <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 py-3">$99</p> 
+                                <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 py-3"><strong class="">Activo</strong></p>
+                                <div class="col-3 col-md-2 col-lg-1 my-0 py-1 d-flex align-items-center justify-content-between">
+                                    <a class=" flex-fill d-flex justify-content-center">
+                                        <img class="btnEditarRest" src="./resources/img/icons/pencil.png" alt="Editar">
+                                    </a>
+                                    <a class=" flex-fill d-flex justify-content-center">
+                                        <img class="btnBorrarRest" src="./resources/img/icons/trash.png" alt="Borrar">
+                                    </a>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

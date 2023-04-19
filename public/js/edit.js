@@ -73,8 +73,10 @@ const contenedorCategoriasMenuModal = document.querySelector(".contenedorCategor
         let Html = "";
         datosCategorias.forEach(categoria =>{
             Html += `
-                    <input type="radio" class="checkCategoriaMenu btn-check ms-2" id="${categoria.id_categoria}" value="${categoria.id_categoria}">
-                    <label for="${categoria.nombre}" class="checkCategoriaMenu btn btn-outline-primary ms-2">${categoria.nombre}</label>`
+            <button id="${categoria.id_categoria}" class="checkCategoriaMenu btn btn-outline-primary me-3" type="button">
+                ${categoria.nombre}   
+            </button>
+        `
         })
         contenedor.innerHTML += Html;
     }
@@ -115,6 +117,8 @@ const fetchCategoriasMenu = () => {
     fetch(urlApi+"/menu")
     .then( res => res.json())
     .then(data => {
+        borrarElementosContenedor(".checkCategoriaMenu", contenedorChecksCategoriasMenu);
+        borrarElementosContenedor(".categoriasMenuModal",contenedorCategoriasMenuModal);
         listarCategoriasMenuChecks(data, contenedorChecksCategoriasMenu);
         listarCategoriasMenuModal(data, contenedorCategoriasMenuModal);
     })
@@ -128,6 +132,7 @@ fetchCategoriasMenu();
 
 const inputnombreCrearCategoriaMenu = document.querySelector(".inputnombreCrearCategoriaMenu");
 let modalCrearCategoriaMenu = new bootstrap.Modal(document.getElementById("modalCrearCategoriaMenu"));
+
 //Crear Categoria Menu
 formCrearCategoriaMenu.addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -142,10 +147,9 @@ formCrearCategoriaMenu.addEventListener("submit", (e)=>{
     })
     .then(res => res.json())
     .then(data => {
-        borrarElementosContenedor(".checkCategoriaMenu", contenedorChecksCategoriasMenu);
-        borrarElementosContenedor(".categoriasMenuModal",contenedorCategoriasMenuModal);
+        /* borrarElementosContenedor(".checkCategoriaMenu", contenedorChecksCategoriasMenu);
+        borrarElementosContenedor(".categoriasMenuModal",contenedorCategoriasMenuModal); */
         fetchCategoriasMenu();
-        console.log(modalCrearCategoriaMenu);
         inputnombreCrearCategoriaMenu.value = "";
         modalCrearCategoriaMenu.hide();
     })
@@ -174,7 +178,7 @@ on(document, "click", ".btnBorrarCategoria", e => {
                 method: "DELETE"
             })
             .then(res => res.json())
-            .then(()=> location.reload())
+            .then(()=> fetchCategoriasMenu())
         } else if (result.isDenied) {
         }
     })
@@ -211,6 +215,65 @@ formEditarCategoriasMenu.addEventListener("submit", (e)=>{
 
 
 
+const contenedorPlatillos = document.querySelector(".contenedorPlatillos");
+
+const listarPlatillos = (platillos)=>{
+    platillos.forEach(platillo => {
+        contenedorPlatillos.innerHTML += 
+                        `<div class="registroPlatillo row shadow mt-3 position-relative">
+                            <p class="d-none d-lg-block col-lg-1 my-0 py-3">${platillo.id_platillo}</p>
+                            <div class="imagenRestaurante col-3 col-md-2 col-lg-1 my-0 py-1 d-flex align-items-center ">
+                                <img class="img-fluid" src="./resources/img/caesar.png" alt="">
+                            </div>
+                            <p class="col-6 col-md-4 col-lg-3 my-0 py-1 py-3">${platillo.nombre_plati}</p>
+                            <p class="d-none d-lg-block col-lg-4 my-0 py-1 py-3">${platillo.descripcion}</p>
+                            <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 py-3">${platillo.precio}</p> 
+                            <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 py-3"><strong class="">${platillo.estatus}</strong></p>
+                            <div class="col-3 col-md-2 col-lg-1 my-0 py-1 d-flex align-items-center justify-content-between">
+                                <a class=" flex-fill d-flex justify-content-center">
+                                    <img class="btnEditarPlatillo" src="./resources/img/icons/pencil.png" alt="Editar">
+                                </a>
+                                <a class=" flex-fill d-flex justify-content-center">
+                                    <img class="btnBorrarPlatillo" src="./resources/img/icons/trash.png" alt="Borrar">
+                                </a>
+                            </div>
+                        </div>`
+    })
+}
+
+/* const fetching = (url, funcion1, funcion2) => {
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+        funcion2
+        funcion1(data);
+        
+    })
+    .catch(e => console.log(e));
+}; */
+const cambiarCategoriaMenu = document.querySelector(".cambiarCategoriaMenu");
+
+on(document, "click", ".checkCategoriaMenu", e => {
+    e.preventDefault();
+    let id = e.target.id;
+    let nombre = e.target.innerHTML;
+    let urlPlatillos = `${urlApi}/menu/${id}/platillos`
+
+    cambiarCategoriaMenu.innerHTML= nombre;
+
+    /* fetching(
+        urlPlatillos, 
+        listarPlatillos, 
+        borrarElementosContenedor(".registroPlatillo", contenedorPlatillos)
+        ); */
+    fetch(urlPlatillos)
+    .then( res => res.json())
+    .then(data => {
+        borrarElementosContenedor(".registroPlatillo", contenedorPlatillos);
+        listarPlatillos(data);
+    })
+    .catch(e => console.log(e))
+})
 
 
 
