@@ -227,11 +227,11 @@ const listarPlatillos = (platillos)=>{
                             </div>
                             <p class="col-6 col-md-4 col-lg-3 my-0 py-1 py-3">${platillo.nombre_plati}</p>
                             <p class="d-none d-lg-block col-lg-4 my-0 py-1 py-3">${platillo.descripcion}</p>
-                            <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 py-3">${platillo.precio}</p> 
+                            <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 py-3">$${platillo.precio}</p> 
                             <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 py-3"><strong class="">${platillo.estatus}</strong></p>
                             <div class="col-3 col-md-2 col-lg-1 my-0 py-1 d-flex align-items-center justify-content-between">
-                                <a class=" flex-fill d-flex justify-content-center">
-                                    <img class="btnEditarPlatillo" src="./resources/img/icons/pencil.png" alt="Editar">
+                                <a href="http://localhost:1000/editar/platillo${platillo.id_platillo}" class="btnEditarPlatillo flex-fill d-flex justify-content-center">
+                                    <img class="" src="./resources/img/icons/pencil.png" alt="Editar">
                                 </a>
                                 <a class=" flex-fill d-flex justify-content-center">
                                     <img class="btnBorrarPlatillo" src="./resources/img/icons/trash.png" alt="Borrar">

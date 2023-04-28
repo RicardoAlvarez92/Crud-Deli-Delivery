@@ -1,6 +1,9 @@
 /* Se utiliza un "-" para dar nombre a las clases en caso de usar 2 palabras */
+
 body{
     background-color: rgb(246, 246, 246);
+}
+.contenedor{
 }
 .fila{
     vertical-align: middle;
@@ -35,7 +38,8 @@ body{
     height: 140px;
     overflow: hidden;
 }
-.imagenEditarRest{
+.imagenEditarRest,
+.imagenEditarPlatillo{
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -53,9 +57,17 @@ p{
     white-space: nowrap;
 }
 
+.imagenPLatillo{
+    width: 130px;
+    height: 130px;
+}
+
+
 @media screen and (min-width: 768px) {
     .conImagen{
         width: 175px;
         height: 175px;
     }
 }
+
+

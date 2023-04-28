@@ -244,6 +244,61 @@ app.put("/edit:id", async (req, res) =>{
     res.redirect(`/edit${id}`);
 })
 
+//Editar platillos 
+app.get("/editar/platillo:id", (req, res)=> {
+    const id= req.params.id;
+    const sentenceSql = `SELECT * FROM platillos WHERE id_platillo = ${id}`
+    connection.query(sentenceSql, async(error, results)=>{
+        if(results.length != 0){
+            res.render("platillo", {
+                id: results[0].id_platillo,
+                nombre: results[0].nombre_plati,
+                precio: results[0].precio,
+                descripcion: results[0].descripcion,
+                imagen: results[0].imagen,
+                estatus: results[0].estatus
+                });
+        }else{
+            res.send("pagina no existe");
+        }
+    })
+})
+
+app.put("/editar/platillo:id", async (req, res)=> {
+    let id = req.params.id;
+    let imagen = "";
+    let estatus= "";
+    if(req.file){
+        const uploadImage = await cloudinary.v2.uploader.upload(req.file.path);
+        imagen = `${uploadImage.url}`;
+    }else{
+        imagen = `${req.body.url}`;
+    }
+
+    if(req.body.estatus == "on"){
+        estatus = "Activo"
+    }else{
+        estatus = "Inactivo"
+    }
+
+    const {nombre, descripcion, precio} = req.body;
+
+
+    let sql = "UPDATE platillos SET nombre_plati = ?, precio = ?, descripcion = ?, imagen = ?, estatus = ? WHERE id_platillo = ?";
+    connection.query(sql, [nombre, precio, descripcion, imagen, estatus, id ], (e, results) =>{
+        if(e){
+            throw e;
+        }
+    })  
+
+    if(req.file){
+        await fs.unlink(req.file.path);
+    }
+    res.redirect(`/editar/platillo${id}`);
+});
+
+
+
 //13 - Logout
 app.get("/logout", (req, res)=>{
     req.session.destroy(()=>{
