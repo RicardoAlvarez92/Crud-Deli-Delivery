@@ -186,7 +186,7 @@ app.post("/", async (req, res) => {
     res.redirect("/");
 })
 
-app.get("/edit:id", (req, res) =>{
+app.get("/restaurante/:id", (req, res) =>{
     const id= req.params.id;
     const sentenceSql = `SELECT * FROM restaurantes WHERE id_restaurante = ${id}`
     connection.query(sentenceSql, async(error, results)=>{
@@ -210,7 +210,7 @@ app.get("/edit:id", (req, res) =>{
 })
 
 //Actualizar restaurante
-app.put("/edit:id", async (req, res) =>{
+app.put("/restaurante/:id", async (req, res) =>{
 
     let id = req.params.id;
     let imagenRestaurant = "";
@@ -241,7 +241,7 @@ app.put("/edit:id", async (req, res) =>{
     if(req.file){
         await fs.unlink(req.file.path);
     }
-    res.redirect(`/edit${id}`);
+    res.redirect(`/restaurante/${id}`);
 })
 
 //Editar platillos 
@@ -297,6 +297,47 @@ app.put("/editar/platillo:id", async (req, res)=> {
     res.redirect(`/editar/platillo${id}`);
 });
 
+//Nuevo Platillo 
+app.get("/restaurante/:id/categoria:id_categoria", async (req, res) => {
+    res.render("createPlatillo")
+})
+
+app.post("/restaurante/:id/categoria:id_categoria", async (req, res) => {
+    const id = req.params.id;
+    const idCategoria = req.params.id_categoria;
+
+    let imagen = "";
+    if(req.file){
+        const uploadImage = await cloudinary.v2.uploader.upload(req.file.path);
+        imagen = `${uploadImage.url}`;
+    }else{
+        imagen = "https://res.cloudinary.com/dlgkssswu/image/upload/v1680589895/kwzmtj1sevnwhmguvly9.png"
+    }
+
+    const data = {
+        nombre_plati: req.body.nombre,
+        id_categoria: idCategoria,
+        id_restaurante: id,
+        precio: req.body.precio,
+        descripcion: req.body.descripcion,
+        imagen: imagen,
+        estatus: "Inactivo",
+    }
+
+    let sql = "INSERT INTO platillos SET ?";
+    connection.query(sql, data, (e, results) =>{
+        if(e){
+            throw e;
+        }else{
+            Object.assign(data, {id: results.insertId})//agregamos el id al objeto data
+        }
+    });
+
+    if(req.file){
+        await fs.unlink(req.file.path);
+    }
+    res.redirect(`/restaurante/${id}`);
+})
 
 
 //13 - Logout

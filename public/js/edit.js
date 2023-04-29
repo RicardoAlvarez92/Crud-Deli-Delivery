@@ -13,6 +13,7 @@ const checkDiasEditarRest = document.querySelectorAll(".checkDiaEditarRest");
 const idRest = document.querySelector(".idRestaurante").value;
 const urlApi = `http://localhost:3000/api/restaurantes/${idRest}`
 const inputEditarImagen = document.querySelector(".inputEditarImagen")
+let idCategoriaMenuSelecionada = "";
 
 
 fetch(urlApi)
@@ -89,7 +90,7 @@ const contenedorCategoriasMenuModal = document.querySelector(".contenedorCategor
                         <span class="input-group-text">${categoria.id_categoria}</span>
                         <input type="text" class="inputNombreCategoriaMenu form-control" value="${categoria.nombre}" aria-describedby="button-addon2">
                         <button class="btnBorrarCategoria btn btn-outline-warning" type="button" id="button-addon2">
-                            <img src="./resources/img/icons/trash.png" alt="">
+                            <img src="../resources/img/icons/trash.png" alt="">
                         </button>
                     </div>
                     `
@@ -223,7 +224,7 @@ const listarPlatillos = (platillos)=>{
                         `<div class="registroPlatillo row shadow mt-3 position-relative">
                             <p class="d-none d-lg-block col-lg-1 my-0 py-3">${platillo.id_platillo}</p>
                             <div class="imagenRestaurante col-3 col-md-2 col-lg-1 my-0 py-1 d-flex align-items-center ">
-                                <img class="img-fluid" src="./resources/img/caesar.png" alt="">
+                                <img class="img-fluid" src="${platillo.imagen}" alt="">
                             </div>
                             <p class="col-6 col-md-4 col-lg-3 my-0 py-1 py-3">${platillo.nombre_plati}</p>
                             <p class="d-none d-lg-block col-lg-4 my-0 py-1 py-3">${platillo.descripcion}</p>
@@ -231,10 +232,10 @@ const listarPlatillos = (platillos)=>{
                             <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 py-3"><strong class="">${platillo.estatus}</strong></p>
                             <div class="col-3 col-md-2 col-lg-1 my-0 py-1 d-flex align-items-center justify-content-between">
                                 <a href="http://localhost:1000/editar/platillo${platillo.id_platillo}" class="btnEditarPlatillo flex-fill d-flex justify-content-center">
-                                    <img class="" src="./resources/img/icons/pencil.png" alt="Editar">
+                                    <img class="" src="../resources/img/icons/pencil.png" alt="Editar">
                                 </a>
                                 <a class=" flex-fill d-flex justify-content-center">
-                                    <img class="btnBorrarPlatillo" src="./resources/img/icons/trash.png" alt="Borrar">
+                                    <img class="btnBorrarPlatillo" src="../resources/img/icons/trash.png" alt="Borrar">
                                 </a>
                             </div>
                         </div>`
@@ -258,6 +259,8 @@ on(document, "click", ".checkCategoriaMenu", e => {
     let id = e.target.id;
     let nombre = e.target.innerHTML;
     let urlPlatillos = `${urlApi}/menu/${id}/platillos`
+    idCategoriaMenuSelecionada = id;
+    btnNuevoPlatillo.classList.remove("d-none");
 
     cambiarCategoriaMenu.innerHTML= nombre;
 
@@ -275,6 +278,12 @@ on(document, "click", ".checkCategoriaMenu", e => {
     .catch(e => console.log(e))
 })
 
+const btnNuevoPlatillo = document.getElementById("btnNuevoPlatillo");
 
+btnNuevoPlatillo.addEventListener("click", () =>{
+    location.href=`http://localhost:1000/restaurante/${idRest}/categoria${idCategoriaMenuSelecionada}`;
+})
+
+/* seguir con el codigo hacer una especie de validacion para que no se pueda acceder a la ruta cuando los parametros de id no exiten en la base de datos  */
 
 

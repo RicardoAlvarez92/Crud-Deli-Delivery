@@ -68,7 +68,7 @@ on(document, "click", ".btnBorrarRest", e => {
 on(document, "click", ".btnEditarRest", e =>{
     const fila = e.target.parentNode.parentNode.parentNode;
     const idRest = fila.firstElementChild.innerHTML;
-    location.href=`http://localhost:1000/edit${idRest}`;
+    location.href=`http://localhost:1000/restaurante/${idRest}`;
 });
 
 btnBuscador.addEventListener("click", buscarRest);
