@@ -2,7 +2,7 @@
 //Funcion para mostrar restaurantes
 const listarRestaurantes = (restaurantes)=>{
     restaurantes.forEach(restaurante => {
-        ContenedorRegistros.innerHTML += 
+        contenedorRegistros.innerHTML += 
                         `<div class="registroRestaurante row shadow mt-3 position-relative">
                             <p class="col-2 col-md-1 my-0 py-3">${restaurante.id_restaurante}</p>
                             <div class="imagenRestaurante col-2 col-lg-1 my-0 py-1 d-flex align-items-center ">
@@ -23,6 +23,7 @@ const listarRestaurantes = (restaurantes)=>{
                         </div>`
     })
 }
+
 
 //funcion para limpiar cheks
 const limpiarChecks = (checks) =>{
@@ -54,20 +55,59 @@ const on = (element, event, selector, handler) =>{
     })
 }
 
+const mensaje = (busqueda) => {
+    contenedorRegistros.innerHTML += `
+        <div class="msgSinResultados my-5 d-flex flex-column align-items-center">
+            <img class="" src="./resources/img/icons/alert.png" alt="Alert" width="50">
+            <p class="my-3" >No hay resultados para la busqueda de : <span class="letrasBusqueda fw-bolder text-primary">${busqueda}</span></p>
+        </div>
+        `
+}
+
+const pagination = document.querySelector(".pagination");
 // Funcion para el buscador
 const buscarRest = () => {
     const textoInput = inputBuscador.value.toLowerCase();
-    const registroRestaurante = document.querySelectorAll(".registroRestaurante");
+   /*  const registroRestaurante = document.querySelectorAll(".registroRestaurante");
 
     registroRestaurante.forEach(registro =>{
-        ContenedorRegistros.removeChild(registro);
-    })
-
-    fetch(urlApi)
+        contenedorRegistros.removeChild(registro);
+    }) */
+    const dataFilter = baseDeDatos.filter(rest => rest.nombre_rest.toLowerCase().indexOf(textoInput) != -1 )
+    console.log(dataFilter.length);
+    if(dataFilter.length != 0){
+        paginaActual = 1;
+        borrarElementosContenedor(".msgSinResultados", contenedorRegistros)
+        try {
+            pagination.classList.remove("d-none");
+            
+        } catch (e) {
+        }
+        prueba = dataFilter;
+        renderizar(prueba);
+    }else{
+        borrarElementosContenedor(".msgSinResultados", contenedorRegistros)
+        pagination.classList.add("d-none");
+        prueba = [];
+        renderizar(prueba);
+        mensaje(inputBuscador.value);
+    }
+    /* console.log(dataFilter);   */
+   /*  fetch(urlApi)
     .then( res => res.json())
     .then(data => {
         const dataFilter = data.filter(rest => rest.nombre_rest.toLowerCase().indexOf(textoInput) != -1 )
         listarRestaurantes(dataFilter);
     })
-    .catch(e => console.log(e))
+    .catch(e => console.log(e)) */
     }
+
+//borrar elementos de un contenedor
+    const borrarElementosContenedor = (selector, contenedor) => {
+        let elementos = document.querySelectorAll(selector);
+        elementos.forEach(elemento =>{
+            contenedor.removeChild(elemento);
+        })
+    }
+
+    

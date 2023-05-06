@@ -1,6 +1,6 @@
 //Definicion de variables
 const urlApi = "http://localhost:3000/api/restaurantes/";
-const ContenedorRegistros = document.querySelector(".ContenedorRegistros");
+const contenedorRegistros = document.querySelector(".contenedorRegistros");
 /* const formNuevoRest = document.querySelector("#formNuevoRest"); */
 const contSubirImg = document.querySelector(".contSubirImg");
 const inpImgNuevoRest = document.getElementById("inpImgNuevoRest");
@@ -32,7 +32,11 @@ btnNuevoRest.addEventListener("click", ()=>{
 fetch(urlApi)
     .then( res => res.json())
     .then(data => {
-        listarRestaurantes(data);
+        data.forEach(restaurante => {
+            baseDeDatos.push(restaurante);
+        })
+        
+        renderizar(baseDeDatos);
     })
     .catch(e => console.log(e))
 
@@ -82,6 +86,76 @@ contSubirImg.addEventListener("click", (e)=>{
 inpImgNuevoRest.onchange = ()=>{
     mostrarImagen(inpImgNuevoRest, imgNuevoRest);
 }
+
+const btnAtras = document.querySelector("#btnAtras");
+const btnSiguiente = document.querySelector("#btnSiguiente");
+const informacionPagina = document.querySelector("#informacion-pagina");
+const elementosPorPagina = 2;
+let paginaActual = 1;
+const baseDeDatos = [];
+let prueba = baseDeDatos;
+/* 
+
+*/
+const paginas = document.querySelector(".paginas");
+
+const avanzarPagina = () => {
+    paginaActual = paginaActual + 1;
+    renderizar(prueba);
+}
+
+const retrocederPagina = () => {
+    paginaActual = paginaActual - 1;
+	renderizar(prueba);
+}
+
+const obtenerRebanadaDeBaseDeDatos = (pagina = 1, datos) => {
+	const corteDeInicio = (paginaActual - 1) * elementosPorPagina;
+	const corteDeFinal = corteDeInicio + elementosPorPagina;
+	return datos.slice(corteDeInicio, corteDeFinal);
+}
+
+function obtenerPaginasTotales(datos) {
+	return Math.ceil(datos.length / elementosPorPagina);
+}
+
+function gestionarBotones(datos) {
+	// Comprobar que no se pueda retroceder
+	if (paginaActual === 1) {
+		btnAtras.setAttribute("disabled", true);
+	} else {
+		btnAtras.removeAttribute("disabled");
+	}
+	// Comprobar que no se pueda avanzar
+	if (paginaActual === obtenerPaginasTotales(datos)) {
+		btnSiguiente.setAttribute("disabled", true);
+	} else {
+		btnSiguiente.removeAttribute("disabled");
+	}
+}
+
+const renderizar = (datos) => {
+	// Limpiamos los artículos anteriores del DOM
+	borrarElementosContenedor(".registroRestaurante", contenedorRegistros);
+	// Obtenemos los artículos paginados
+	const rebanadaDatos = obtenerRebanadaDeBaseDeDatos(paginaActual, datos);
+	//// Dibujamos
+	// Deshabilitar botones pertinentes (retroceder o avanzar página)
+	gestionarBotones(datos);
+	// Informar de página actual y páginas disponibles
+	informacionPagina.textContent = `${paginaActual}/${obtenerPaginasTotales(datos)}`;
+	// Crear un artículo para cada elemento que se encuentre en la página actual
+	listarRestaurantes(rebanadaDatos);
+}
+
+btnAtras.addEventListener("click", () => {
+    retrocederPagina();
+});
+btnSiguiente.addEventListener("click", () => {
+    avanzarPagina();
+});
+
+
 
 
 

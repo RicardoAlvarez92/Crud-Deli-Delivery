@@ -98,12 +98,6 @@ const contenedorCategoriasMenuModal = document.querySelector(".contenedorCategor
         contenedor.innerHTML += Html;
     }
 
-    const borrarElementosContenedor = (selector, contenedor) => {
-        let elementos = document.querySelectorAll(selector);
-        elementos.forEach(elemento =>{
-            contenedor.removeChild(elemento);
-        })
-    }
     
 
     /* fetch(urlApi+"/menu")
@@ -148,8 +142,6 @@ formCrearCategoriaMenu.addEventListener("submit", (e)=>{
     })
     .then(res => res.json())
     .then(data => {
-        /* borrarElementosContenedor(".checkCategoriaMenu", contenedorChecksCategoriasMenu);
-        borrarElementosContenedor(".categoriasMenuModal",contenedorCategoriasMenuModal); */
         fetchCategoriasMenu();
         inputnombreCrearCategoriaMenu.value = "";
         modalCrearCategoriaMenu.hide();
@@ -213,9 +205,6 @@ formEditarCategoriasMenu.addEventListener("submit", (e)=>{
     modalEditarCategoriasMenu.hide();
 })
 
-
-
-
 const contenedorPlatillos = document.querySelector(".contenedorPlatillos");
 
 const listarPlatillos = (platillos)=>{
@@ -242,16 +231,6 @@ const listarPlatillos = (platillos)=>{
     })
 }
 
-/* const fetching = (url, funcion1, funcion2) => {
-    fetch(url)
-    .then(res => res.json())
-    .then(data => {
-        funcion2
-        funcion1(data);
-        
-    })
-    .catch(e => console.log(e));
-}; */
 const cambiarCategoriaMenu = document.querySelector(".cambiarCategoriaMenu");
 
 on(document, "click", ".checkCategoriaMenu", e => {
@@ -264,11 +243,7 @@ on(document, "click", ".checkCategoriaMenu", e => {
 
     cambiarCategoriaMenu.innerHTML= nombre;
 
-    /* fetching(
-        urlPlatillos, 
-        listarPlatillos, 
-        borrarElementosContenedor(".registroPlatillo", contenedorPlatillos)
-        ); */
+    
     fetch(urlPlatillos)
     .then( res => res.json())
     .then(data => {
@@ -286,4 +261,70 @@ btnNuevoPlatillo.addEventListener("click", () =>{
 
 /* seguir con el codigo hacer una especie de validacion para que no se pueda acceder a la ruta cuando los parametros de id no exiten en la base de datos  */
 
+on(document, "click", ".btnBorrarPlatillo", e => {
+    e.preventDefault();
+    const idPlatillo = e.target.parentNode.parentNode.parentNode.children[0].innerHTML;
+    const nombrePlatillo = e.target.parentNode.parentNode.parentNode.children[2].innerHTML;
+    const url =`${urlApi}/menu/${idCategoriaMenuSelecionada}/platillos/`;
+   
 
+    Swal.fire({
+        title: `seguro quieres eliminar el registro de ${nombrePlatillo}?`,
+        showDenyButton: true,
+        confirmButtonText: 'Borrar',
+        denyButtonText: `Conservar`,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                showConfirmButton: false,
+                text:'El registro fue eliminado con exito',
+                })
+            fetch(url+idPlatillo,{
+                method: "DELETE"
+            })
+            .then(res => res.json())
+            .then(() => {
+                
+                fetch(url)
+            .then( res => res.json())
+            .then(data => {
+            borrarElementosContenedor(".registroPlatillo", contenedorPlatillos);
+            listarPlatillos(data);
+        })
+        .catch(e => console.log(e))  
+            }
+            )
+        } else if (result.isDenied) {
+        }
+
+        
+    })
+    
+
+})
+
+/* on(document, "click", ".btnBorrarRest", e => {
+    const fila = e.target.parentNode.parentNode.parentNode;
+    const nomRest = fila.children[2].innerHTML;
+    const idRest = fila.firstElementChild.innerHTML;
+
+    Swal.fire({
+        title: `seguro quieres eliminar el registro de ${nomRest}?`,
+        showDenyButton: true,
+        confirmButtonText: 'Borrar',
+        denyButtonText: `Conservar`,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                showConfirmButton: false,
+                text:'El registro fue eliminado con exito',
+                })
+            fetch(urlApi+idRest,{
+                method: "DELETE"
+            })
+            .then(res => res.json())
+            .then(()=> location.reload())
+        } else if (result.isDenied) {
+        }
+    })
+}) */

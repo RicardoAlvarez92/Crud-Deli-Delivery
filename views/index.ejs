@@ -214,7 +214,7 @@
             </div>
 
             <!-- Tabla de Restaurantes -->
-            <div id="" class="ContenedorRegistros container-fluid mt-3">
+            <div id="" class="contenedorRegistros container-fluid mt-3">
               <!-- cabecera -->
                 <div class="titulosRegistros row text-white bg-primary ">
                     <div class="col-2 col-md-1 col-lg-1 my-0 py-1  ">ID</div>
@@ -225,13 +225,12 @@
                     <div class="d-none d-lg-block col-lg-1 my-0 py-1 ">Estatus</div>
                 </div>
             </div>
-            <nav class="mt-4 d-flex justify-content-center" aria-label="Page navigation example">
+            
+            <nav class=" mt-4 d-flex justify-content-center" aria-label="Page navigation example">
               <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li> -->
-                <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                <li class="page-item"><button type="button" id="btnAtras" class="page-link">Anterior</button></li>
+                <li id="informacion-pagina" class="page-item d-flex justify-content-center align-items-center px-3 fw-bolder text-primary border"></li>
+                <li class="page-item"><button type="button" id="btnSiguiente" class="page-link">Siguiente</button ></li>
               </ul>
             </nav>
           </div>
