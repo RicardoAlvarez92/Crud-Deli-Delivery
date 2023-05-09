@@ -7,16 +7,12 @@ const cloudinary = require("cloudinary");
 const fs = require("fs-extra");
 const methodOverride = require("method-override");
 
-/* const multer = require("./multer/multer");
-const cloudinary  = require("./cloudinary/cloudinary"); */
-
 //2 - we set urlencoded to capture the form data
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 //method override
 app.use(methodOverride("_method"));
-
 
 //3 - we inoke dotenv
 const dotenv = require("dotenv");

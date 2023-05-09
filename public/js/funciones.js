@@ -55,7 +55,7 @@ const on = (element, event, selector, handler) =>{
     })
 }
 
-const mensaje = (busqueda) => {
+const mensajeSinResultados = (busqueda) => {
     contenedorRegistros.innerHTML += `
         <div class="msgSinResultados my-5 d-flex flex-column align-items-center">
             <img class="" src="./resources/img/icons/alert.png" alt="Alert" width="50">
@@ -84,13 +84,14 @@ const buscarRest = () => {
         } catch (e) {
         }
         prueba = dataFilter;
-        renderizar(prueba);
+        renderizarRestaurantes(prueba);
     }else{
         borrarElementosContenedor(".msgSinResultados", contenedorRegistros)
+        borrarElementosContenedor(".registroRestaurante", contenedorRegistros);
         pagination.classList.add("d-none");
-        prueba = [];
-        renderizar(prueba);
-        mensaje(inputBuscador.value);
+        /* prueba = [];
+        renderizarRestaurantes(prueba); */
+        mensajeSinResultados(inputBuscador.value);
     }
     /* console.log(dataFilter);   */
    /*  fetch(urlApi)

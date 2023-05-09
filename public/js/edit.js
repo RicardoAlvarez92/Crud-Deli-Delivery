@@ -266,7 +266,6 @@ on(document, "click", ".btnBorrarPlatillo", e => {
     const idPlatillo = e.target.parentNode.parentNode.parentNode.children[0].innerHTML;
     const nombrePlatillo = e.target.parentNode.parentNode.parentNode.children[2].innerHTML;
     const url =`${urlApi}/menu/${idCategoriaMenuSelecionada}/platillos/`;
-   
 
     Swal.fire({
         title: `seguro quieres eliminar el registro de ${nombrePlatillo}?`,
@@ -303,28 +302,3 @@ on(document, "click", ".btnBorrarPlatillo", e => {
 
 })
 
-/* on(document, "click", ".btnBorrarRest", e => {
-    const fila = e.target.parentNode.parentNode.parentNode;
-    const nomRest = fila.children[2].innerHTML;
-    const idRest = fila.firstElementChild.innerHTML;
-
-    Swal.fire({
-        title: `seguro quieres eliminar el registro de ${nomRest}?`,
-        showDenyButton: true,
-        confirmButtonText: 'Borrar',
-        denyButtonText: `Conservar`,
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire({
-                showConfirmButton: false,
-                text:'El registro fue eliminado con exito',
-                })
-            fetch(urlApi+idRest,{
-                method: "DELETE"
-            })
-            .then(res => res.json())
-            .then(()=> location.reload())
-        } else if (result.isDenied) {
-        }
-    })
-}) */
