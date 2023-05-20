@@ -10,3 +10,5 @@ inputImagenPlatillo.onchange = ()=>{
     mostrarImagen(inputImagenPlatillo, imagenEditarPlatillo);
 }
 
+
+

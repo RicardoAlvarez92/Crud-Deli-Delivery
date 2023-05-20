@@ -17,6 +17,8 @@ const checkCateNuevoRest = document.querySelectorAll(".checkCateNuevoRest");
 const checkDiaNuevoRest = document.querySelectorAll(".checkDiaNuevoRest");
 const btnGuardarNuevoRest = document.getElementById("btnGuardarNuevoRest");
 
+
+
 //buscador
 const inputBuscador = document.getElementById("inputBuscador");
 const btnBuscador = document.getElementById("btnBuscador"); 
@@ -98,7 +100,6 @@ const fetchRestaurantes = () =>{
         data.forEach(restaurante => {
             baseDeDatos.push(restaurante);
         })
-        console.log(baseDeDatos)
         renderizarRestaurantes(baseDeDatos);
     })
     .catch(e => console.log(e))
@@ -111,6 +112,8 @@ on(document, "click", ".btnBorrarRest", e => {
     const fila = e.target.parentNode.parentNode.parentNode;
     const nomRest = fila.children[2].innerHTML;
     const idRest = fila.firstElementChild.innerHTML;
+    /* const result = categoriasMenu.filter(categoria => categoria.id_restaurante == idRest);
+    console.log(result.length); */
     fetch(urlApi+idRest+"/menu")
     .then(res => res.json())
     .then(data => {
@@ -182,6 +185,7 @@ let paginaActual = 1;
 let baseDeDatos = [];
 let prueba = baseDeDatos;
 
+
 const paginas = document.querySelector(".paginas");
 
 const avanzarPagina = () => {
@@ -194,7 +198,7 @@ const retrocederPagina = () => {
 	renderizarRestaurantes(prueba);
 }
 
-const obtenerRebanadaDeBaseDeDatos = (pagina = 1, datos) => {
+const obtenerRebanadaDeBaseDeDatos = (datos) => {
 	const corteDeInicio = (paginaActual - 1) * elementosPorPagina;
 	const corteDeFinal = corteDeInicio + elementosPorPagina;
 	return datos.slice(corteDeInicio, corteDeFinal);
@@ -223,7 +227,12 @@ const renderizarRestaurantes = (datos) => {
 	// Limpiamos los artículos anteriores del DOM
 	borrarElementosContenedor(".registroRestaurante", contenedorRegistros);
 	// Obtenemos los artículos paginados
-	const rebanadaDatos = obtenerRebanadaDeBaseDeDatos(paginaActual, datos);
+	let rebanadaDatos = obtenerRebanadaDeBaseDeDatos(datos);
+    
+    if(rebanadaDatos.length == 0){
+        paginaActual = paginaActual -1;
+        rebanadaDatos = obtenerRebanadaDeBaseDeDatos(datos);
+    }
 	//// Dibujamos
 	// Deshabilitar botones pertinentes (retroceder o avanzar página)
 	gestionarBotones(datos);

@@ -197,7 +197,6 @@ app.get("/restaurante/:id", (req, res) =>{
                 ubicacion: results[0].ubicacion,
                 categorias: results[0].categorias,
                 dias: results[0].dias_abierto
-                
                 });
         }else{
             res.send("pagina no existe");
@@ -210,6 +209,14 @@ app.put("/restaurante/:id", async (req, res) =>{
 
     let id = req.params.id;
     let imagenRestaurant = "";
+    let estatus = "";
+
+    if(req.body.estatus != "on"){
+        estatus = "Inactivo";
+    }else{
+        estatus = "Activo";
+    }
+
     if(req.file){
         const uploadImage = await cloudinary.v2.uploader.upload(req.file.path);
         imagenRestaurant = `${uploadImage.url}`;
@@ -227,8 +234,8 @@ app.put("/restaurante/:id", async (req, res) =>{
     const {nombre, ubicacion, apertura, cierre} = req.body;
 
 
-    let sql = "UPDATE restaurantes SET nombre_rest = ?, ubicacion = ?, imagen = ?, apertura = ?, cierre = ?, dias_abierto = ?, categorias = ? WHERE id_restaurante = ?";
-    connection.query(sql, [nombre, ubicacion, imagenRestaurant, apertura, cierre, `${diasFilter}`, `${categoriasFilter}`, id ], (e, results) =>{
+    let sql = "UPDATE restaurantes SET nombre_rest = ?, ubicacion = ?, imagen = ?, apertura = ?, cierre = ?, dias_abierto = ?, categorias = ?, status = ? WHERE id_restaurante = ?";
+    connection.query(sql, [nombre, ubicacion, imagenRestaurant, apertura, cierre, `${diasFilter}`, `${categoriasFilter}`, estatus, id ], (e, results) =>{
         if(e){
             throw e;
         }
@@ -290,7 +297,11 @@ app.put("/editar/platillo:id", async (req, res)=> {
     if(req.file){
         await fs.unlink(req.file.path);
     }
-    res.redirect(`/editar/platillo${id}`);
+    const myFunc = ()=>{
+        res.send("<script>window.close();</script>");
+    }
+    
+    setTimeout(myFunc, 1 * 1000);
 });
 
 //Nuevo Platillo 
@@ -332,7 +343,8 @@ app.post("/restaurante/:id/categoria:id_categoria", async (req, res) => {
     if(req.file){
         await fs.unlink(req.file.path);
     }
-    res.redirect(`/restaurante/${id}`);
+
+    res.send("<script>window.close();</script>");
 })
 
 

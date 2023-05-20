@@ -11,12 +11,14 @@ const inpCieEditarRest = document.querySelector(".inpCieEditarRest");
 const checkCateEditarRestaurante = document.querySelectorAll(".checkCateEditarRest")
 const checkDiasEditarRest = document.querySelectorAll(".checkDiaEditarRest");
 const idRest = document.querySelector(".idRestaurante").value;
-const urlApi = `http://localhost:3000/api/restaurantes/${idRest}`
+const urlRestauranteEnEdicion = `http://localhost:3000/api/restaurantes/${idRest}`
 const inputEditarImagen = document.querySelector(".inputEditarImagen")
 let idCategoriaMenuSelecionada = "";
+const urlPlatillos = 'http://localhost:3000/api/platillos'
+const cambiarCategoriaMenu = document.querySelector(".cambiarCategoriaMenu");
 
 
-fetch(urlApi)
+fetch(urlRestauranteEnEdicion)
 .then(res => res.json())
 .then( data => {
     const restaurante = data[0];
@@ -74,7 +76,7 @@ const contenedorCategoriasMenuModal = document.querySelector(".contenedorCategor
         let Html = "";
         datosCategorias.forEach(categoria =>{
             Html += `
-            <button id="${categoria.id_categoria}" class="checkCategoriaMenu btn btn-outline-primary me-3" type="button">
+            <button id="${categoria.id_categoria}" class="checkCategoriaMenu btn btn-outline-primary me-3 mt-3 mb-2" type="button">
                 ${categoria.nombre}   
             </button>
         `
@@ -98,30 +100,29 @@ const contenedorCategoriasMenuModal = document.querySelector(".contenedorCategor
         contenedor.innerHTML += Html;
     }
 
-    
-
-    /* fetch(urlApi+"/menu")
-    .then(res => res.json())
-    .then(categoriasMenu => {
-
-        listarCategoriasMenuChecks(categoriasMenu, contenedorChecksCategoriasMenu);
-        listarCategoriasMenuModal(categoriasMenu, contenedorCategoriasMenuModal);
-    }) */
+const btnEditarCategoriasMenu = document.querySelector(".btnEditarCategoriasMenu");
 
 const fetchCategoriasMenu = () => {
-    fetch(urlApi+"/menu")
+    fetch(urlRestauranteEnEdicion+"/menu")
     .then( res => res.json())
     .then(data => {
-        borrarElementosContenedor(".checkCategoriaMenu", contenedorChecksCategoriasMenu);
-        borrarElementosContenedor(".categoriasMenuModal",contenedorCategoriasMenuModal);
-        listarCategoriasMenuChecks(data, contenedorChecksCategoriasMenu);
-        listarCategoriasMenuModal(data, contenedorCategoriasMenuModal);
+        if(data.length != 0){
+            btnEditarCategoriasMenu.classList.remove("d-none");
+            borrarElementosContenedor(".sinResultadosChecks", contenedorChecksCategoriasMenu);
+            borrarElementosContenedor(".checkCategoriaMenu", contenedorChecksCategoriasMenu);
+            borrarElementosContenedor(".categoriasMenuModal", contenedorCategoriasMenuModal);
+            listarCategoriasMenuChecks(data, contenedorChecksCategoriasMenu);
+            listarCategoriasMenuModal(data, contenedorCategoriasMenuModal);
+        }else{
+            btnEditarCategoriasMenu.classList.add("d-none");
+            borrarElementosContenedor(".checkCategoriaMenu", contenedorChecksCategoriasMenu);
+            borrarElementosContenedor(".categoriasMenuModal", contenedorCategoriasMenuModal);
+            borrarElementosContenedor(".sinResultadosChecks", contenedorChecksCategoriasMenu);
+            mensajeSinCategorias(contenedorChecksCategoriasMenu, "sinResultadosChecks");
+        }
     })
     .catch(e => console.log(e))
 }
-
-
-
 fetchCategoriasMenu();
 
 
@@ -131,7 +132,7 @@ let modalCrearCategoriaMenu = new bootstrap.Modal(document.getElementById("modal
 //Crear Categoria Menu
 formCrearCategoriaMenu.addEventListener("submit", (e)=>{
     e.preventDefault();
-    fetch(urlApi+"/menu", {
+    fetch(urlRestauranteEnEdicion+"/menu", {
         method:"POST",
         headers:{
             "Content-Type":"application/json" 
@@ -141,7 +142,7 @@ formCrearCategoriaMenu.addEventListener("submit", (e)=>{
         })
     })
     .then(res => res.json())
-    .then(data => {
+    .then(() => {
         fetchCategoriasMenu();
         inputnombreCrearCategoriaMenu.value = "";
         modalCrearCategoriaMenu.hide();
@@ -156,23 +157,43 @@ on(document, "click", ".btnBorrarCategoria", e => {
     const idCategoria = fila.firstElementChild.innerHTML;
     console.log(parseInt(idCategoria));
     
-    Swal.fire({
-        title: `seguro quieres eliminar la categoria ${nombreCategoria}?`,
-        showDenyButton: true,
-        confirmButtonText: 'Borrar',
-        denyButtonText: `Conservar`,
-    }).then((result) => {
-        if (result.isConfirmed) {
+    fetch(urlPlatillos)
+    .then(res => res.json())
+    .then(data => {
+        const filtro = data.filter(dato => dato.id_categoria == idCategoria);
+        if(filtro.length != 0){
             Swal.fire({
-                showConfirmButton: false,
-                text:'El registro fue eliminado con exito',
-                })
-            fetch(urlApi+"/menu/"+idCategoria,{
-                method: "DELETE"
+                icon: 'error',
+                title: 'Oops...',
+                text: 'No puedes Eliminar este Registro. Aun tiene platillos vinculadas',
             })
-            .then(res => res.json())
-            .then(()=> fetchCategoriasMenu())
-        } else if (result.isDenied) {
+        }else{
+            Swal.fire({
+                title: `seguro quieres eliminar la categoria ${nombreCategoria}?`,
+                showDenyButton: true,
+                confirmButtonText: 'Borrar',
+                denyButtonText: `Conservar`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        showConfirmButton: false,
+                        text:'El registro fue eliminado con exito',
+                        timer:1500
+                        })
+                    fetch(urlRestauranteEnEdicion+"/menu/"+idCategoria,{
+                        method: "DELETE"
+                    })
+                    .then(res => res.json())
+                    .then(()=> {
+                        fetchCategoriasMenu();
+                        cambiarCategoriaMenu.innerHTML = "";
+                        btnNuevoPlatillo.classList.add("d-none");
+                        borrarElementosContenedor(".registroPlatillo", contenedorPlatillos);
+                        modalEditarCategoriasMenu.hide();
+                        
+                    })
+                }
+            })
         }
     })
 })
@@ -180,6 +201,7 @@ on(document, "click", ".btnBorrarCategoria", e => {
 
 /* --------EN CODIFICACION  ------------------*/
 let modalEditarCategoriasMenu = new bootstrap.Modal(document.getElementById('modalEditarCategoriasMenu'));
+
 //Editar Categoria de Menu
 formEditarCategoriasMenu.addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -189,7 +211,7 @@ formEditarCategoriasMenu.addEventListener("submit", (e)=>{
         let idCategoria = parseInt(categoria.children[0].innerHTML);
         let nombre = categoria.children[1].value;
 
-        fetch(urlApi+"/menu/"+idCategoria, {
+        fetch(urlRestauranteEnEdicion+"/menu/"+idCategoria, {
             method:"PUT",
             headers:{
                 "Content-Type":"application/json" 
@@ -199,10 +221,13 @@ formEditarCategoriasMenu.addEventListener("submit", (e)=>{
             })
         })
     })
+    btnNuevoPlatillo.classList.add("d-none");
     borrarElementosContenedor(".checkCategoriaMenu", contenedorChecksCategoriasMenu);
     borrarElementosContenedor(".categoriasMenuModal",contenedorCategoriasMenuModal);
     fetchCategoriasMenu();
-    modalEditarCategoriasMenu.hide();
+    cambiarCategoriaMenu.innerHTML = "";
+    borrarElementosContenedor(".registroPlatillo", contenedorPlatillos);
+    modalEditarCategoriasMenu.hide();   
 })
 
 const contenedorPlatillos = document.querySelector(".contenedorPlatillos");
@@ -220,7 +245,7 @@ const listarPlatillos = (platillos)=>{
                             <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 py-3">$${platillo.precio}</p> 
                             <p class="d-none d-md-block col-md-2 col-lg-1 my-0 py-1 py-3"><strong class="">${platillo.estatus}</strong></p>
                             <div class="col-3 col-md-2 col-lg-1 my-0 py-1 d-flex align-items-center justify-content-between">
-                                <a href="http://localhost:1000/editar/platillo${platillo.id_platillo}" class="btnEditarPlatillo flex-fill d-flex justify-content-center">
+                                <a class="btnEditarPlatillo flex-fill d-flex justify-content-center">
                                     <img class="" src="../resources/img/icons/pencil.png" alt="Editar">
                                 </a>
                                 <a class=" flex-fill d-flex justify-content-center">
@@ -231,19 +256,17 @@ const listarPlatillos = (platillos)=>{
     })
 }
 
-const cambiarCategoriaMenu = document.querySelector(".cambiarCategoriaMenu");
 
 on(document, "click", ".checkCategoriaMenu", e => {
     e.preventDefault();
     let id = e.target.id;
     let nombre = e.target.innerHTML;
-    let urlPlatillos = `${urlApi}/menu/${id}/platillos`
+    let urlPlatillos = `${urlRestauranteEnEdicion}/menu/${id}/platillos`
     idCategoriaMenuSelecionada = id;
     btnNuevoPlatillo.classList.remove("d-none");
 
     cambiarCategoriaMenu.innerHTML= nombre;
 
-    
     fetch(urlPlatillos)
     .then( res => res.json())
     .then(data => {
@@ -256,16 +279,22 @@ on(document, "click", ".checkCategoriaMenu", e => {
 const btnNuevoPlatillo = document.getElementById("btnNuevoPlatillo");
 
 btnNuevoPlatillo.addEventListener("click", () =>{
-    location.href=`http://localhost:1000/restaurante/${idRest}/categoria${idCategoriaMenuSelecionada}`;
+    window.open(`http://localhost:1000/restaurante/${idRest}/categoria${idCategoriaMenuSelecionada}`);
 })
 
 /* seguir con el codigo hacer una especie de validacion para que no se pueda acceder a la ruta cuando los parametros de id no exiten en la base de datos  */
+on(document, "click", ".btnEditarPlatillo", e => {
+    e.preventDefault();
+    const idPlatillo = e.target.parentNode.parentNode.parentNode.children[0].innerHTML;
+    window.open(`http://localhost:1000/editar/platillo${idPlatillo}`);
+})
+
 
 on(document, "click", ".btnBorrarPlatillo", e => {
     e.preventDefault();
     const idPlatillo = e.target.parentNode.parentNode.parentNode.children[0].innerHTML;
     const nombrePlatillo = e.target.parentNode.parentNode.parentNode.children[2].innerHTML;
-    const url =`${urlApi}/menu/${idCategoriaMenuSelecionada}/platillos/`;
+    const url =`${urlRestauranteEnEdicion}/menu/${idCategoriaMenuSelecionada}/platillos/`;
 
     Swal.fire({
         title: `seguro quieres eliminar el registro de ${nombrePlatillo}?`,
@@ -277,6 +306,7 @@ on(document, "click", ".btnBorrarPlatillo", e => {
             Swal.fire({
                 showConfirmButton: false,
                 text:'El registro fue eliminado con exito',
+                timer: 1500
                 })
             fetch(url+idPlatillo,{
                 method: "DELETE"
